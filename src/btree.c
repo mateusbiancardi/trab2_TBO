@@ -71,6 +71,8 @@ BTree *btree_create(int ordem, const char *filename)
         return NULL;
     }
 
+    memset(&t->header, 0, sizeof(BTreeHeader));
+
     t->header.ordem = ordem;
     t->header.raiz = 0;
     t->header.prox_no = 1;
