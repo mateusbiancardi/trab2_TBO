@@ -328,9 +328,21 @@ static void fill(BTree *t, long parent_idx, BTreeNode *parent, int idx) {
 
     if (idx != parent->n_chaves) {
         merge(t, parent_idx, parent, idx);
+        BTreeNode *child = read_node(t, parent->filhos[idx]);
+        if (node_is_full(child, t->header.ordem))
+        {
+            split_child(t, parent_idx, parent, idx);
+        }
+        node_destroy(child);
     }
     else {
         merge(t, parent_idx, parent, idx-1);
+        BTreeNode *child = read_node(t, parent->filhos[idx-1]);
+        if (node_is_full(child, t->header.ordem))
+        {
+            split_child(t, parent_idx, parent, idx-1);
+        }
+        node_destroy(child);
     }
 }
 
@@ -368,8 +380,13 @@ static void remove_rec(BTree *t, long idx, int key)
             }
             else {
                 merge(t, idx, n, i);
-                node_destroy(n);
-                n = read_node(t, idx);
+                BTreeNode *child = read_node(t, n->filhos[i]);
+                if (node_is_full(child, t->header.ordem)) {
+                    split_child(t, idx, n, i);
+                    node_destroy(n);
+                    n = read_node(t, idx);
+                }
+                node_destroy(child); 
                 remove_rec(t, n->filhos[i], key);
             }
 
