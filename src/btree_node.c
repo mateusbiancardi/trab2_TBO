@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "btree_node.h"
+// #include "../include/btree_node.h"
 
 BTreeNode *node_create(int ordem, int is_leaf)
 {
@@ -11,9 +12,9 @@ BTreeNode *node_create(int ordem, int is_leaf)
     n->is_leaf = is_leaf;
     n->n_chaves = 0;
 
-    n->chaves    = calloc(ordem - 1, sizeof(int));
-    n->registros = calloc(ordem - 1, sizeof(int));
-    n->filhos    = calloc(ordem, sizeof(long));
+    n->chaves    = calloc(ordem, sizeof(int));
+    n->registros = calloc(ordem, sizeof(int));
+    n->filhos    = calloc(ordem+1, sizeof(long));
 
     if (!n->chaves || !n->registros || !n->filhos) {
         free(n);
@@ -37,7 +38,7 @@ void node_destroy(BTreeNode *n)
 
 int node_is_full(BTreeNode *n, int ordem)
 {
-    return n->n_chaves == ordem - 1;
+    return n->n_chaves == ordem;
 }
 
 void node_write(FILE *fp, long offset, BTreeNode *n)
@@ -47,9 +48,9 @@ void node_write(FILE *fp, long offset, BTreeNode *n)
     fwrite(&n->is_leaf, sizeof(int), 1, fp);
     fwrite(&n->n_chaves, sizeof(int), 1, fp);
 
-    fwrite(n->chaves, sizeof(int), n->ordem - 1, fp);
-    fwrite(n->registros, sizeof(int), n->ordem - 1, fp);
-    fwrite(n->filhos, sizeof(long), n->ordem, fp);
+    fwrite(n->chaves, sizeof(int), n->ordem, fp);
+    fwrite(n->registros, sizeof(int), n->ordem, fp);
+    fwrite(n->filhos, sizeof(long), n->ordem + 1, fp);
 
     fflush(fp);
 }
@@ -61,15 +62,15 @@ void node_read(FILE *fp, long offset, BTreeNode *n)
     fread(&n->is_leaf, sizeof(int), 1, fp);
     fread(&n->n_chaves, sizeof(int), 1, fp);
 
-    fread(n->chaves, sizeof(int), n->ordem - 1, fp);
-    fread(n->registros, sizeof(int), n->ordem - 1, fp);
-    fread(n->filhos, sizeof(long), n->ordem, fp);
+    fread(n->chaves, sizeof(int), n->ordem, fp);
+    fread(n->registros, sizeof(int), n->ordem, fp);
+    fread(n->filhos, sizeof(long), n->ordem + 1, fp);
 }
 
 long node_disk_size(int ordem)
 {
     return sizeof(int) * 2 +
-           sizeof(int) * (ordem - 1) +
-           sizeof(int) * (ordem - 1) +
-           sizeof(long) * ordem;
+           sizeof(int) * (ordem) +
+           sizeof(int) * (ordem) +
+           sizeof(long) * (ordem+1);
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "btree.h"
+// #include "../include/btree.h"
 
 int main(int argc, char *argv[])
 {
@@ -56,16 +57,25 @@ int main(int argc, char *argv[])
 
             case 'I':   /* Inserção */
                 fscanf(in, "%d%*[, ]%d", &chave, &reg);
+                fprintf(stderr, "--- Op %d: I %d ---\n", i+1, chave);
                 btree_insert(t, chave, reg);
+                fprintf(stderr, "Arvore apos I %d:\n", chave);
+                btree_print(t, stderr);
+                fprintf(stderr, "\n");
                 break;
 
             case 'R':   /* Remoção */
                 fscanf(in, "%d", &chave);
+                fprintf(stderr, "--- Op %d: R %d ---\n", i+1, chave);
                 btree_remove(t, chave);
+                fprintf(stderr, "Arvore apos R %d:\n", chave);
+                btree_print(t, stderr);
+                fprintf(stderr, "\n");
                 break;
 
             case 'B':   /* Busca */
                 fscanf(in, "%d", &chave);
+                fprintf(stderr, "--- Op %d: B %d ---\n", i+1, chave);
 
                 if (btree_search(t, chave, &reg))
                     fprintf(out,
@@ -73,6 +83,9 @@ int main(int argc, char *argv[])
                 else
                     fprintf(out,
                             "O REGISTRO NAO ESTA NA ARVORE!\n");
+                fprintf(stderr, "Arvore apos B %d:\n", chave);
+                btree_print(t, stderr);
+                fprintf(stderr, "\n");
                 break;
 
             default:
