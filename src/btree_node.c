@@ -1,3 +1,8 @@
+/*
+ * Alunos: Mateus Biancardi da Silva - 2024203031
+ *         Pedro Marchini Pereira - 2023100264
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "btree_node.h"

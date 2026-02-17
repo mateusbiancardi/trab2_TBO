@@ -1,3 +1,8 @@
+/*
+ * Alunos: Mateus Biancardi da Silva - 2024203031
+ *         Pedro Marchini Pereira - 2023100264
+ */
+
 #ifndef BTREE_H
 #define BTREE_H
 

@@ -1,3 +1,8 @@
+/*
+ * Alunos: Mateus Biancardi da Silva - 2024203031
+ *         Pedro Marchini Pereira - 2023100264
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
