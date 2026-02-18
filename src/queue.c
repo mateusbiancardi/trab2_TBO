@@ -7,8 +7,9 @@
 #include "queue.h"
 // #include "../include/queue.h"
 
+// fila auxiliar usada para imprimir a árvore b por nível
 typedef struct QNode {
-    long value;
+    long value;  // índice do nó no arquivo
     struct QNode *next;
 } QNode;
 
@@ -26,6 +27,7 @@ Queue *queue_create(void)
 
 void queue_destroy(Queue *q)
 {
+    // remove todos os elementos antes de liberar a fila
     while (!queue_empty(q))
         queue_pop(q);
     free(q);
@@ -45,7 +47,7 @@ void queue_push(Queue *q, long value)
     if (q->rear)
         q->rear->next = n;
     else
-        q->front = n;
+        q->front = n;  // fila estava vazia
 
     q->rear = n;
 }
@@ -57,7 +59,7 @@ long queue_pop(Queue *q)
 
     q->front = n->next;
     if (!q->front)
-        q->rear = NULL;
+        q->rear = NULL;  // fila ficou vazia
 
     free(n);
     return v;
