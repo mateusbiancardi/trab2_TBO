@@ -1,8 +1,15 @@
+/*
+ * Alunos: Mateus Biancardi da Silva - 2024203031
+ *         Pedro Marchini Pereira - 2023100264
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "btree.h"
+// #include "../include/btree.h"
 
+// programa principal que lê arquivo de entrada com operações e gera árvore b em disco
 int main(int argc, char *argv[])
 {
     if (argc != 3) {
@@ -27,6 +34,7 @@ int main(int argc, char *argv[])
 
     int ordem, n;
 
+    // formato do arquivo: primeira linha tem ordem da árvore e número de operações
     if (fscanf(in, "%d", &ordem) != 1 ||
         fscanf(in, "%d", &n) != 1) {
         fprintf(stderr, "Erro ao ler cabeçalho.\n");
@@ -47,6 +55,7 @@ int main(int argc, char *argv[])
     char op;
     int chave, reg;
 
+    // processa cada operação do arquivo
     for (int i = 0; i < n; i++) {
 
         if (fscanf(in, " %c", &op) != 1)
@@ -55,6 +64,7 @@ int main(int argc, char *argv[])
         switch (op) {
 
             case 'I':   /* Inserção */
+                // formato: I chave, registro
                 fscanf(in, "%d%*[, ]%d", &chave, &reg);
                 btree_insert(t, chave, reg);
                 break;
@@ -84,6 +94,7 @@ int main(int argc, char *argv[])
     fprintf(out, "-- ARVORE B\n");
     btree_print(t, out);
 
+    // libera recursos
     btree_destroy(t);
     fclose(in);
     fclose(out);
